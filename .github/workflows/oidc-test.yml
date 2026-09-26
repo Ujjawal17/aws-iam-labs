@@ -9,13 +9,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Show the OIDC subject claim
+      - name: Show token claims
         run: |
-          echo "Repo:   ${GITHUB_REPOSITORY}"
-          echo "Ref:    ${GITHUB_REF}"
-          echo "Expected sub: repo:${GITHUB_REPOSITORY}:ref:${GITHUB_REF}"
+          echo "sub should be: repo:${GITHUB_REPOSITORY}:ref:${GITHUB_REF}"
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
           aws-region: eu-west-2
+          audience: sts.amazonaws.com
       - run: aws sts get-caller-identity
