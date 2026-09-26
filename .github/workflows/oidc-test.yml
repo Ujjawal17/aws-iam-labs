@@ -9,9 +9,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Show token claims
+      - name: Decode OIDC token
         run: |
-          echo "sub should be: repo:${GITHUB_REPOSITORY}:ref:${GITHUB_REF}"
+          TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r '.value')
+          echo "$TOKEN" | cut -d '.' -f2 | base64 -d 2>/dev/null | jq '{sub, aud}' || \
+          echo "$TOKEN" | cut -d '.' -f2 | base64 --decode -i 2>/dev/null | jq '{sub, aud}'
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
