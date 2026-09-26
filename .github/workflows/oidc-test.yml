@@ -9,11 +9,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Show the OIDC subject claim
+        run: |
+          echo "Repo:   ${GITHUB_REPOSITORY}"
+          echo "Ref:    ${GITHUB_REF}"
+          echo "Expected sub: repo:${GITHUB_REPOSITORY}:ref:${GITHUB_REF}"
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubActionsRole
           aws-region: eu-west-2
-      - name: Prove we assumed the role with no stored keys
-        run: |
-          aws sts get-caller-identity
-          aws s3 ls
+      - run: aws sts get-caller-identity
