@@ -1,0 +1,34 @@
+# Never commit anything that could contain credentials or account-specific state.
+# The lab .md files are safe (account ID is always ${ACCOUNT_ID}); these patterns
+# catch the throwaway files the labs generate if you happen to run them here.
+
+# AWS credentials / config
+.aws/
+credentials
+config
+
+# Captured command output (may contain access keys, secrets, session tokens)
+out.json
+out.txt
+*.out
+/tmp/out.*
+
+# Lambda payloads and build artifacts
+*.zip
+lambda-src/
+
+# Generated policy/trust JSON from the labs (recreated at runtime; keep only the .md)
+trust*.json
+*-policy*.json
+boundary.json
+canary.json
+revoke.json
+region-deny*.json
+abac-*.json
+external-trust.json
+internal-trust.json
+bucket-policy.json*
+
+# Editor / OS noise
+.DS_Store
+*.swp
