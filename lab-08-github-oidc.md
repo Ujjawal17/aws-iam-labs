@@ -187,7 +187,7 @@ claim."** Then the token `sub` is NOT the documented `repo:ORG/REPO:ref:...`. It
 like:
 
 ```
-repo:my-user@65893136/my-repo@1388336702:ref:refs/heads/main
+repo:my-user@12345678/my-repo@987654321:ref:refs/heads/main
 ```
 
 The `@<number>` suffixes are the immutable numeric user/org ID and repo ID. A trust policy
